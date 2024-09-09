@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Project 1: Colorizing the Prokudin-Gorskii photo collection</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [['$','$'], ['\\(','\\)']],
+              processEscapes: true
+          }
+      });
+    </script>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1> Colorizing the Prokudin-Gorskii photo collection</h1>
+  <h2> The "naive" approach </h2>
+  <p> We have 3 color channels: RGB. First align green channel in reference to be, then r in reference to b and call np.dstack(.) to concatenate the three color channels
+  to get a colored image. To do so, we can check similarity by some metric and choose the translation that maximizes the similarity between two color channels
+  The simples metric is to minimize over Euclidean distance between two images $$\argmin_{i, j \in [-15, 15] \wedge [-15, 15]}\Sum(im1_{i, j} - im2_{i, j})^2$$. There
+  are cleverer techniques but this is a baseline. Simple alignment with no translation results in an image where colors are clearly misaligned. We can just 
+  try to minimize over possible translation grid $$[-15, 15] \wedge [-15, 15]$$ as described in the equations. The "naive" approach function I implemented for this basically
+  consists of two arguments, im1 and im2 (in this case im2 is always the blue color channels, which is the reference for alignment), a baseline shift = (0, 0), two for loops
+  to iterate over the possible translation space, and saving the best translation the algorithm comes across with Euclidean metric. Although I expected it to be a good colored image
+  it was kind of fuzzy. This was probably because the images are unmasked and contain sides that affect the overall colors with noise. To circumvent this, I cropped all sides by 10 
+  percent, which helped reducing the noise. In the search for a better metric, I found normalized_mutual_information under metrics of skimage package. Very informally, the mutual 
+  information between two stochastic variables $$X, Y$$ is defined as $$I(X; Y) = H(X) + H(Y) - H(X, Y)$$, where $$H$$ stands for entropy of the density. Also entropy for a random
+  variable with density $p$ is defined as $$-\Sum_{x} p(x) \log p(x)$$. and since $$p(x) \in [0, 1] \forall x$$ and $$log$$ convex and entropy is a convex combination of logs, this is a PSD convex function that is
+  maximized at 1. From this, we can infer from the definition of mutual information, for fixed marginals $$p_x$$ and $$p_y$$, we should try to maximize the mutual information. That's because we 
+  are viewing images as stochastic variables with noise, a statistical dependence between two images would increase "randomness", which is not something we want because
+  randomness in this context means noise, which create misaligned images in terms of colors. Basically there should be no stochastic dependence between two as one image should tell most of the information
+  about the image (the structure of the images are nearly identical except for the lens that they were taken with). This is a sufficient statistic. So basically, I changed the Euclidean distance metric to 
+  normalized mutual information, which resulted in better resolution images available below.
+  </p>
+
+  <h2> Images from the naive approach </h2>
+
+  <h2> Pyramid approach </h2>
+
+  <p>
+    For high resolution images, exhaustive search becomes computationally expensive as the search soace grows quadratically. An $$[-15, 15] \wedge [-15, 15]$$ would require 225 computationally expensive vector operations, which is expensive in terms of computation.
+    Course-to-fine approach is the goal of image pyramids. They start with a low-res version of the image (down sampled, or rescaled in my case) of the image to find approximate alignment on the low-res image, then refine at higher resolutions with smaller search spaces.
+    As you can see, these are hyper-parameters that I had to choose during development. The recursive algorithm I developed recursively downsampled the image by 2 until the dimensions of both axes were smaller that 300. On the base case, I ran the naive algorithm on the lowest resolution
+    image, which results in a shift of (i, j). This is a bottom up recursive approach, so on the higher level of the recursive stack, we have a image twice the size of the current image, so the shift should be multiplied by 2 as well (2i, 2j) and (2i, 2j) is the start of the search at the higher
+    level. And basically from one level above of the base level, I created the same search function for higher resolution images with a way smaller search space ($$[-2, 2] \wedge [-2, -2]$$ was the most time efficient with best resolution images) and ran the exhaustive search on a smaller search space
+    than before with the same normalized mutual information metric. I repeated this for all levels recursively, until this bottom up recursive solution came back to upper most level with a good alignment. Apart from a python misconception (basically I was trying to multiply the shift tuple by two at higher levels
+    of recursion but apparently it appends a copy to the tuple of the same tuple), I didn't really come across a big challange. I also processed the initially cropped images for noise reduction. However, at the end, the top and left sides of most images had color misalignment. In order to fix that, I cropped 10 
+    percent from the top and left sides after processing with this recursive pyramid approach.
+  </p>
+  <h2> Images from the pyramid apprach</h2>
+  <a href="../index.html">Back to main page</a>
+</body>
+</html>
