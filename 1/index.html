@@ -36,7 +36,7 @@
   it was kind of fuzzy. This was probably because the images are unmasked and contain sides that affect the overall colors with noise. To circumvent this, I cropped all sides by 10 
   percent, which helped reducing the noise. In the search for a better metric, I found normalized_mutual_information under metrics of skimage package. Very informally, the mutual 
   information between two stochastic variables $$X, Y$$ is defined as $$I(X; Y) = H(X) + H(Y) - H(X, Y)$$, where $$H$$ stands for entropy of the density. Also entropy for a random
-  variable with density $p$ is defined as $$-\Sum_{x} p(x) \log p(x)$$. and since $$p(x) \in [0, 1] \forall x$$ and log convex and entropy is a convex combination of logs, this is a PSD convex function that is
+  variable with density $p$ is defined as $$-\Sigma_{x} p(x) \log p(x)$$. and since $$p(x) \in [0, 1] \forall x$$ and log convex and entropy is a convex combination of logs, this is a PSD convex function that is
   maximized at 1. From this, we can infer from the definition of mutual information, for fixed marginals $$p_x$$ and $$p_y$$, we should try to maximize the mutual information. That's because we 
   are viewing images as stochastic variables with noise, a statistical dependence between two images would increase "randomness", which is not something we want because
   randomness in this context means noise, which create misaligned images in terms of colors. Basically there should be no stochastic dependence between two as one image should tell most of the information
