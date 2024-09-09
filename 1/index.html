@@ -30,7 +30,7 @@
   to get a colored image. To do so, we can check similarity by some metric and choose the translation that maximizes the similarity between two color channels
   The simples metric is to minimize over Euclidean distance between two images $$\text{argmin}_{i, j \in [-15, 15] \times [-15, 15]}\Sigma(im1_{i, j} - im2_{i, j})^2$$. There
   are cleverer techniques but this is a baseline. Simple alignment with no translation results in an image where colors are clearly misaligned. We can just 
-  try to minimize over possible translation grid $$[-15, 15] \times [-15, 15]$$ as described in the equations. The "naive" approach function I implemented for this basically
+  try to minimize over possible translation grid $$[-15, 15] \times [-15, 15]$$ as described in the equations (I then changed this to $[-20, 20] \times [-20, 20]$ for high-res images and redid the low-res ones in this search space too). The "naive" approach function I implemented for this basically
   consists of two arguments, im1 and im2 (in this case im2 is always the blue color channels, which is the reference for alignment), a baseline shift = (0, 0), two for loops
   to iterate over the possible translation space, and saving the best translation the algorithm comes across with Euclidean metric. Although I expected it to be a good colored image
   it was kind of fuzzy. This was probably because the images are unmasked and contain sides that affect the overall colors with noise. To circumvent this, I cropped all sides by 10 
