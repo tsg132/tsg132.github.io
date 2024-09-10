@@ -64,7 +64,7 @@
     level. And basically from one level above of the base level, I created the same search function for higher resolution images with a way smaller search space ($$[-2, 2] \times [-2, 2]$$ was the most time efficient with best resolution images) and ran the exhaustive search on a smaller search space
     than before with the same normalized mutual information metric. I repeated this for all levels recursively, until this bottom up recursive solution came back to upper most level with a good alignment. Apart from a python misconception (basically I was trying to multiply the shift tuple by two at higher levels
     of recursion but apparently it appends a copy to the tuple of the same tuple), I didn't really come across a big challange. I also processed the initially cropped images for noise reduction. However, at the end, the top and left sides of most images had color misalignment. In order to fix that, I cropped 10 
-    percent from the top and left sides after processing with this recursive pyramid approach.
+    percent from the top and left sides after processing with this recursive pyramid approach. Under the images, the caption reads the shift required for green to align to blue and red to align to blue.
   </p>
   <h2> Images from the pyramid apprach</h2>
     <img src="reimagined%20photos/advanced_image1.jpg" alt="church.tif">
@@ -81,8 +81,6 @@
     <p>shift: (81, 10), (177, 13), time: 48.4s</p>
     <img src="reimagined%20photos/advanced_image7.jpg" alt="onion_church.tif">
     <p>shift: (51, 26), (108, 36), time: 46.3s</p>
-    <img src="reimagined%20photos/advanced_image8.jpg" alt="sculpture.tif">
-    <p>shift: (33, -11), (140, -27), time: 48.7s (no extra cropping for this image)</p>
     <img src="reimagined%20photos/advanced_image9.jpg" alt="self_portrait.tif">
     <p>shift: (78, 29), (176, 37), time: 48.8s</p>
     <img src="reimagined%20photos/advanced_image10.jpg" alt="three_generations.tif">
