@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <h1> Finite Difference Operator</h1>
+  <h1> Fun with Frequencies </h1>
   <h2> Finite Difference Operator and Magnitude of the Photographer </h2>
 
   <p>
@@ -82,8 +82,6 @@
   convolving the Gaussian Filter with the Finite Difference Operators, and then convolving it with the original unblurred image.
   </p>
 
-  <a href="../index.html">Back to main page</a>
-
   <h2> Image "Sharpening" </h2>
 
   <p> 
@@ -122,9 +120,37 @@
 
   
   <p>
-    I implemented the Gaussian Stack by repeatedly applying a gaussian filter on the original image (convolving with the original image)
+    I implemented the Gaussian Stack by repeatedly applying a gaussian filter on the original image (convolving with the original image). On each level, I multiply the standard deviation by two, so the kernel size gets bigger as well and this results in a blurred image. The effects of the gaussian stack is below:
   </p>
-  
+
+  <h2> Associated Image </h2>
+
+
+  <p>
+    I then implemented the laplacian stack by taking subtracting blurred images (from the gaussian stack, I subtract more refined image from the blurred image stack[i] - stack[i + 1] to capture the details). Due to the nature of this problem, for both stacks to have the same size I also append the lest level of blur of the Gaussian Stack to the Laplacian Stack for both of stacks
+    to have the same size:
+  </p>
+
+  <h2> Associated Images </h2>
+
+  <p>
+    I then created a vertical mask and apply the gaussian stack on the mask and multiply on each level the element of the laplacian stack with the blurred mask at that level. This results in some blurring near the fusing points of both images, which results in a smoother transition. We then add all the elements in this new masked stack, which results in this fused image "oraple". I also incorporate
+    color by doing this masking process on each color channel:
+  </p>
+
+  <h2> Associated Image </h2>
+
+  <h2> Multiresolution Blending </h2>
+
+  <p>
+    The visualizations are made through normalizing the images with the minmax normalization. I used the same mask by blending Istanbul and New York below. I also created new irregular masks for all the other pictures below. In order to accomplish this, I used Adobe Photoshop 2024 and chose the region that I wanted to include in both images with only two pixels black and white. Also, for alignment purposes,
+    I downscaled the bigger image according to its ratio, and then cropped if necessary. I also incorporated color by masking each color channel of the pictures:
+  </p>
+
+  <h2> Associated Images </h2>
+
+
+  <a href="../index.html">Back to main page</a>
 
   
 </body>
