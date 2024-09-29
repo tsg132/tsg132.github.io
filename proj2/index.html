@@ -35,10 +35,10 @@
   <p> Partial derivative with respect to [1 -1]^T</p>
 
   <img src="project2_images/unbinarized_photographer.png" alt="magnitude plot of the photographer">
-  <p> Magnitude plot of the photogropher </p>
+  <p> Gradient magnitude plot of the photogropher </p>
 
   <img src="project2_images/binarized.png" alt="binarized magnitude plot">
-  <p> Binarized magnitude plot, magnitude > 0.32 for the above image</p>
+  <p> Binarized gradient magnitude plot, magnitude > 0.32 for the above image</p>
 
 
   <h2> Derivative of Gaussian (DoG) Filter </h2>
@@ -51,6 +51,15 @@
     
   </p>
   <h2> Associated Images </h2>
+
+  <img src="project2_images/blurred_photographer.png" alt="blurred image of the photographer">
+  <p> Blurred image of the photographer by convolving with a Gaussian kernel of size 7 and variance 1</p>
+
+  <img src="project2_images/blurred_then_derivate.png" alt="first blurred with gaussian, then derivated">
+  <p> First blurred with the above gaussian filter, then convolved with the finite difference operators to obtain the above magnitude</p>
+
+  <img src="project2_images/derivated_then_blurred.png" alt="first derivated and obtained magnitude, then blurred">
+  <p> In the above image, the gaussian kernel is first convolved with the finite difference operators, then the image itself (grayscale) is convolved with the first convolution</p>
 
   <p>
   As we can see through the images, the image of the photographer is blurred through the Gaussian Filter, and then taking the finite difference operators through that results in a smoothed (blurred) out image. Since convolution is associative, we can achieve the same result by 
@@ -65,6 +74,43 @@
   </p>
 
   <h2> Associated Images </h2>
+
+  <img src="project2_images/original_taj.png" alt="original taj">
+  <p> The original image of Taj Mahal</p>
+
+  <img src="project2_images/taj_details.png" alt="details of taj mahal">
+  <p> Details of the above image obtained by normalizing the subtraction of the original image by the filtered image by a gaussian kernel of size 25 and standard deviation 4 </p>
+
+  <img src="project2_images/sharpened_taj.png" alt="sharpened taj">
+
+  <p> Original image sharpened with a the unmask sharp filter with a standard deviation of 4, kernel size of 25, and scalar alpha by 1.5</p>
+
+  <img src="project2_images/chrysler_original1.png" alt="original chrysler building">
+
+  <p> Original image of the Chrysler Building</p>
+
+  <img src="project2_images/chrysler_details1.png" alt="details of the chrysler building">
+
+  <p> Details of the above image obtained by normalizing the subtraction of the original image by the filtered image by a gaussian kernel of size 25 and standard deviation 4 </p>
+
+  <img src="project2_images/chrysler_sharpened.png" alt="sharpened chrysler building">
+
+  <p> Original image sharpened with a the unmask sharp filter with a standard deviation of 4, kernel size of 25, and scalar alpha by 1.7</p>
+
+  <img src="project2_images/atom_heart_mother_unsharpened.png" alt="original album cover">
+  
+  <p> Pink Floyd's Atom Heart Mother's album cover</p>
+
+  <img src="project2_images/atom_heart_mother_details.png" alt="original album cover">
+
+  <p> Details of the above image obtained by the same procedure as others</p>
+
+  <img src="project2_images/atom_heart_mother_sharpened.png" alt="sharpened album cover">
+
+  <p> Album cover sharpened with a the unmask sharp filter with a standard deviation of 4, kernel size of 25, and scalar alpha by 1.5 </p>
+  
+
+
 
   <p>
 
@@ -87,8 +133,13 @@
 
   <h2> Associated Images </h2>
 
+  <img src="project2_images/derek_nutmeg_7_6.png" alt="Derek Nutmeg hybrid">
+  <p> In the above image, derek is lowpassed with a gaussian kernel of standard deviation 7, and nutmeg highpassed with the procedure described above with a standard deviation of 6 </p>
+
+  
+
   <p>
-  My least favorite image among all of them is the gibson-stradivarius image because the violin still has some color components attached and having a white background increases the effect of color of the violin, which I don't like.
+  My least favorite image among all of them is the gibson-stradivarius image because the violin still has some color components attached and having a white background increases the effect of color of the violin, which I don't like. And for that reason I view that image and the galataLion images as failures.
   </p>
 
   <h2> Gaussian and Laplacian Stacks </h2>
