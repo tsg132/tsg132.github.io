@@ -1,1 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Project 1: Colorizing the Prokudin-Gorskii photo collection</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [['$','$'], ['\\(','\\)']],
+              processEscapes: true
+          }
+      });
+    </script>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1> Finite Difference Operator</h1>
+  <h2> The "naive" approach </h2>
 
+  If we think of images as function of x, y in a 2D grid with smallest step size 1, we can define the derivative of an image with respect to x as the difference between to pixels in the x direction with a fixed y due to the definition of derivative since the smallest,
+  delta is 1. Similarly, partial derivative with respect to y is horizontal differences. This allows us to define D_x = [1 -1] D_y = [1 -1]^T as derivative or Finite Difference Operators and convolve with the image to get the gradient of the image, i.e. edge detection.
+  In my code, I get the partial derivative along x through a function called partial_x, which convolves the image with the Finite Difference Operator in the x direction, same for y. To calculate the gradient, I simply compute np.sqrt(np.square(partial_x) + np.square(partial_y))
+  and then show the gradient magnitude of the image as you can see below.
+
+  </p>
+
+  <h2> Finite Difference Operator and Gradient Magnitude of the Photographer </h2>
+
+  <img src="reimagined%20photos/naive_image1.jpg" alt="cathedral.jpg">
+  <p>shift: (5, 2), (12, 3), time: 22.7s</p>
+  <img src="reimagined%20photos/naive_image2.jpg" alt="monastery.jpg">
+  <p>shift: (-3, 2), (3, 2), time: 21.2s</p>
+  <img src="reimagined%20photos/naive_image3.jpg" alt="tobolsk.jpg">
+  <p>shift: (3, 3), (6, 3), time: 20.8s</p>
+  
+
+  <h2> Derivative of Gaussian (DoG) Filter </h2>
+  As we can see from the above images, the result is noisy, which means that the variance of the 2d distribution of the image is rather high. We can regulate this by convolving the image with a Gaussian Filter. A Gaussian Filter is simply a Gaussian distribution on a 2D kernel, and by adjusting
+  the variance of the Gaussian Filter with an acceptable kernel size, the result will be less sharp and noisy than the identity filter we are using right now. Thus, taking the partial derivatives of the "blurred" image will result in a less noisy gradient magnitude plot. The reason I quoted blurred
+  is to signify the effect that a smooth distribution blurs the image while the identity filter act like dirac delta (basically, if the variance of a normal distribution is 0, it kind of looks and acts like a dirac delta function, which is the identity filter in this case, by adjusting the variance, we
+  can have various smoothing or blurring effects on the image). The images obtained by first convolving with a Gaussian Filter, then taking the partial derivatives with the Finite Difference Operator is shown below
+  
+  <p>
+    
+  </p>
+  <h2> Images from the pyramid apprach</h2>
+    <img src="reimagined%20photos/advanced_image1.jpg" alt="church.tif">
+    <p>shift: (25, 4), (59, -4), time: 45.7s</p>
+    <img src="reimagined%20photos/advanced_image2.jpg" alt="emir.tif">
+    <p>shift: (49, 23), (106, 40), time: 46.8s</p>
+    <img src="reimagined%20photos/advanced_image3.jpg" alt="harvesters.tif">
+    <p>shift: (59, 17), (123, 14), time: 48.9s</p>
+    <img src="reimagined%20photos/advanced_image4.jpg" alt="icon.tif">
+    <p>shift: (41, 17), (89, 23), time: 48.5s</p>
+    <img src="reimagined%20photos/advanced_image5.jpg" alt="lady.tif">
+    <p>shift: (54, 9), (116, 12), time: 47.5s</p>
+    <img src="reimagined%20photos/advanced_image6.jpg" alt="melons.tif">
+    <p>shift: (81, 10), (177, 13), time: 48.4s</p>
+    <img src="reimagined%20photos/advanced_image7.jpg" alt="onion_church.tif">
+    <p>shift: (51, 26), (108, 36), time: 46.3s</p>
+    <img src="reimagined%20photos/advanced_image9.jpg" alt="self_portrait.tif">
+    <p>shift: (78, 29), (176, 37), time: 48.8s</p>
+    <img src="reimagined%20photos/advanced_image10.jpg" alt="three_generations.tif">
+    <p>shift: (53, 15), (112, 11), time: 46.8s</p>
+    <img src="reimagined%20photos/advanced_image11.jpg" alt="train.tif">
+    <p>shift: (42, 6), (86, 32), time: 45.8s (no extra cropping for this image)</p>
+  <a href="../index.html">Back to main page</a>
+
+  As we can see through the images, the image of the photographer is blurred through the Gaussian Filter, and then taking the finite difference operators through that results in a smoothed (blurred) out image. Since convolution is associative, we can achieve the same result by 
+  convolving the Gaussian Filter with the Finite Difference Operators, and then convolving it with the original unblurred image.
+</body>
+</html>
