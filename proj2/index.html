@@ -25,7 +25,9 @@
 </head>
 <body>
   <h1> Finite Difference Operator</h1>
-  <h2> The "naive" approach </h2>
+  <h2> Finite Difference Operator and Magnitude of the Photographer </h2>
+
+  <p>
 
   If we think of images as function of x, y in a 2D grid with smallest step size 1, we can define the derivative of an image with respect to x as the difference between to pixels in the x direction with a fixed y due to the definition of derivative since the smallest,
   delta is 1. Similarly, partial derivative with respect to y is horizontal differences. This allows us to define D_x = [1 -1] D_y = [1 -1]^T as derivative or Finite Difference Operators and convolve with the image to get the gradient of the image, i.e. edge detection.
@@ -34,7 +36,7 @@
 
   </p>
 
-  <h2> Finite Difference Operator and Gradient Magnitude of the Photographer </h2>
+  <h2> Associated images </h2>
 
   <img src="reimagined%20photos/naive_image1.jpg" alt="cathedral.jpg">
   <p>shift: (5, 2), (12, 3), time: 22.7s</p>
@@ -45,15 +47,15 @@
   
 
   <h2> Derivative of Gaussian (DoG) Filter </h2>
+
+  <p>
   As we can see from the above images, the result is noisy, which means that the variance of the 2d distribution of the image is rather high. We can regulate this by convolving the image with a Gaussian Filter. A Gaussian Filter is simply a Gaussian distribution on a 2D kernel, and by adjusting
   the variance of the Gaussian Filter with an acceptable kernel size, the result will be less sharp and noisy than the identity filter we are using right now. Thus, taking the partial derivatives of the "blurred" image will result in a less noisy gradient magnitude plot. The reason I quoted blurred
   is to signify the effect that a smooth distribution blurs the image while the identity filter act like dirac delta (basically, if the variance of a normal distribution is 0, it kind of looks and acts like a dirac delta function, which is the identity filter in this case, by adjusting the variance, we
   can have various smoothing or blurring effects on the image). The images obtained by first convolving with a Gaussian Filter, then taking the partial derivatives with the Finite Difference Operator is shown below
-  
-  <p>
     
   </p>
-  <h2> Images from the pyramid apprach</h2>
+  <h2> Associated Images </h2>
     <img src="reimagined%20photos/advanced_image1.jpg" alt="church.tif">
     <p>shift: (25, 4), (59, -4), time: 45.7s</p>
     <img src="reimagined%20photos/advanced_image2.jpg" alt="emir.tif">
@@ -74,9 +76,56 @@
     <p>shift: (53, 15), (112, 11), time: 46.8s</p>
     <img src="reimagined%20photos/advanced_image11.jpg" alt="train.tif">
     <p>shift: (42, 6), (86, 32), time: 45.8s (no extra cropping for this image)</p>
-  <a href="../index.html">Back to main page</a>
 
+  <p>
   As we can see through the images, the image of the photographer is blurred through the Gaussian Filter, and then taking the finite difference operators through that results in a smoothed (blurred) out image. Since convolution is associative, we can achieve the same result by 
   convolving the Gaussian Filter with the Finite Difference Operators, and then convolving it with the original unblurred image.
+  </p>
+
+  <a href="../index.html">Back to main page</a>
+
+  <h2> Image "Sharpening" </h2>
+
+  <p> 
+    With the image unsharp mask filter, to get the details of the image, we blur the image with a gaussian filter, and then subtract this filtered image from the original image to get the high frequency components or the "details". And then, to the original image, we add these "details" with a scalar in front. 
+    This gives us a "sharpened" image. The images sharpened with this filter are below.
+  </p>
+
+  <h2> Associated Images </h2>
+
+  <p>
+
+    As you can see above, with this unmask sharp filter adds in the fine details and makes the images sharper. However; as you can see above, first blurring then adding details doesn't recover the image. The reason behind this is that when we first blur an image, we effectively apply a lowpass filter on the image,
+    not passing high frequency components through. This results in information loss regarding high frequency components of the image and the details get more blurred as well, which can't recover the original image because the high frequency componenents aren't available.
+  </p>
+
+  <h2> Hybrid Images </h2>
+
+  <p>
+    Hybrid images are a byproduct of how we view images. Our eyes have limited resolution and sensitivity and thus we can resolve finer details when viewing an image close up and from far away, we see a 'silhouette' of the image, ie a blurred version. Viewing from far is like downsampling and viewing close is like upsampling.
+    If we view high frequency components of an image (ie edges) as finer details, then we can show a filtered version of the image that is highpass filtered, where only high frequencies are visible. In order to see this image, the viewer has to view the image from a close distance. Inversely, to be able to better see an image from far
+    we may lowpass filter it (which is like downsampling the image) and viewing this from far would enable the viewer to better view the lowpass filtered image, and since our eyes are sensitive to finer details (ie higher frequencies), viewing the image from afar would obscure the highpass filtered image. This results in an hybrid image where
+    when viewed from far, the viewer sees the low frequency component, and when viewed from a close, the viewer sees the high frequency component. To achieve this effect, I lowpass filter the image that I want it to be seen from far by convolving the image with a gaussian kernel with an associated standard deviation sigma_1, and 6 * sigma_1 + 1
+    for the kernel size. To highpass filter an image, I first blur the image with a gaussian kernel with an associated sigma_2, and then subtract this low frequency component from the image to get the high frequency components and return this highpas filtered image. I then simply add the low frequency and high frequency components to get the hybrid image.
+    The FFT plots below demonstrate that I achieved what I wanted with my favorite hybrid image of a very complicated watch as lowpass filtered image, and the galaxy as the highpassed image. The very white FFT plot demonstrates that higher frequencies were passed whereas the lowest of the frequencies (the center of the image) are rejected on the log scale,
+    whereas for the lowpass filtered image, we see a very sharp white in the center since they represent the lower frequencies. All of my images are colored, however; through experimentation, I saw that color is important for the lowpassed image and not so important for the highpassed image because incorporating color on an highpass filter doesn't really change
+    how it looks colorwise (still kind of gray). It is because to obtain the highpassed image, we make subtraction operation of two colored images, one of them is the original and the other one is the blurred. This results in attenuated colors.
+  </p>
+
+  <h2> Associated Images </h2>
+
+  <p>
+  My least favorite image among all of them is the gibson-stradivarius image because the violin still has some color components attached and having a white background increases the effect of color of the violin, which I don't like.
+  </p>
+
+  <h2> Gaussian and Laplacian Stacks </h2>
+
+  
+  <p>
+    I implemented the Gaussian Stack by repeatedly applying a gaussian filter on the original image (convolving with the original image)
+  </p>
+  
+
+  
 </body>
 </html>
