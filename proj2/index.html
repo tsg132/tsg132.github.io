@@ -52,6 +52,13 @@
   </p>
   <h2> Associated Images </h2>
 
+  <img src="project2_images/x_direction_derivative.png" alt="Derivative of Gaussian in the x direction">
+
+  <p>Derivative of Gaussian in the x direction</p>
+
+  <img src="project2_images/y_direction_derivative.png" alt="Derivative of Gaussian in the y direction">
+  <p>Derivative of Gaussian in the y direction</p>
+
   <img src="project2_images/blurred_photographer.png" alt="blurred image of the photographer">
   <p> Blurred image of the photographer by convolving with a Gaussian kernel of size 7 and variance 1</p>
 
@@ -194,6 +201,15 @@
 
   <h2> Associated Image </h2>
 
+  <img src="project2_images/blurred_apple.png" alt="FFT of the hybrid image">
+
+  <p> Gaussian stack of apple with an initial sigma of 3, levels 1 through 5 shown above </p>
+
+  <img src="project2_images/orange_blurred.png" alt="FFT of the hybrid image">
+
+  <p> Gaussian stack of apple with an initial sigma of 3, levels 1 through 5 shown above </p>
+  
+
 
   <p>
     I then implemented the laplacian stack by taking subtracting blurred images (from the gaussian stack, I subtract more refined image from the blurred image stack[i] - stack[i + 1] to capture the details). Due to the nature of this problem, for both stacks to have the same size I also append the lest level of blur of the Gaussian Stack to the Laplacian Stack for both of stacks
@@ -202,12 +218,49 @@
 
   <h2> Associated Images </h2>
 
+  <img src="project2_images/apple_laplacian.png" alt="FFT of the hybrid image">
+
+  <p> Laplacian stack of apple </p>
+
+  <img src="project2_images/lap_orange.png" alt="FFT of the hybrid image">
+
+  <p> Laplacian stack of orange</p>
+
+  
+
   <p>
     I then created a vertical mask and apply the gaussian stack on the mask and multiply on each level the element of the laplacian stack with the blurred mask at that level. This results in some blurring near the fusing points of both images, which results in a smoother transition. We then add all the elements in this new masked stack, which results in this fused image "oraple". I also incorporate
-    color by doing this masking process on each color channel:
+    color by doing this masking process on each color channel. Images below show stacks from level 1 to level 5 and all gaussian kernels use a sigma value of 3 and kernel size of 6 * sigma + 1:
   </p>
 
   <h2> Associated Image </h2>
+
+  <img src="project2_images/blurred_masks.png" alt="FFT of the hybrid image">
+
+  
+
+  <img src="project2_images/mask_right.png" alt="FFT of the hybrid image">
+
+  <img src="project2_images/apple_masked_laplacian.png" alt="FFT of the hybrid image">
+
+  <p> Laplacian stack of masked apple</p>
+
+  <img src="project2_images/masked_lap_orange.png" alt="FFT of the hybrid image">
+
+  <p> Laplacian stack of masked orange </p>
+
+  <img src="project2_images/laplacian_blend_oraple3.png" alt="FFT of the hybrid image">
+
+  <p> Final laplacian stack of the combination of the masked laplacians normalized</p>
+
+  <img src="project2_images/oraple3.png" alt="FFT of the hybrid image">
+
+  <p> Oraple obtained with a laplacian stack of level 5 and sigma = 3 for all gaussian kernels used throughout </p>
+
+  
+
+  
+  
 
   <h2> Multiresolution Blending </h2>
 
@@ -217,6 +270,38 @@
   </p>
 
   <h2> Associated Images </h2>
+  
+  <img src="project2_images/nyc_istanbul2.png" alt="FFT of the hybrid image">
+
+  <p> Image obtained by fusing skylines of Istanbul and New York with a level 5 laplacian stack where the sigma = 2 for all the gaussian kernels used to generate the image, the mask is the same as the oraple</p>
+
+  <img src="project2_images/multi_blend2.png" alt="FFT of the hybrid image">
+
+  <p>Image obtained by using the mask below and using sigma = 2 throughout all gaussian kernels and a laplacian stack of level 5 </p>\
+
+  <img src="project2_images/bh_mask1.png" alt="FFT of the hybrid image">
+
+  <p> Mask used to obtain the above image </p>
+
+  <img src="project2_images/multi_blend1.png" alt="FFT of the hybrid image">
+
+  <p> Image obtained by using the mask below and using sigma = 1 using the mask below, since this is my favorite image, detailed analysis is included below as well</p>
+
+  <img src="project2_images/new_mask.png" alt="FFT of the hybrid image">
+
+  <img src="project2_images/cesme_space_mask.png" alt="FFT of the hybrid image">
+
+  <img src="project2_images/laplacian_cesme.png" alt="FFT of the hybrid image">
+
+  <img src="project2_images/blurred_space.png" alt="FFT of the hybrid image">
+
+  <img src="project2_images/blurred_cesme.png" alt="FFT of the hybrid image">
+
+  <img src="project2_images/laplacian_cesme.png" alt="FFT of the hybrid image">
+
+  <img src="project2_images/laplacian_space.png" alt="FFT of the hybrid image">
+
+  <img src="project2_images/blend_laplacian.png" alt="FFT of the hybrid image">
 
 
   <a href="../index.html">Back to main page</a>
