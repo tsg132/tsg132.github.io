@@ -173,22 +173,22 @@
     In this equation, \(x_i\) and \(x_j\) are interest points that are calculated with the harris detector, f(.) is the harris score function, and I is a set of interest points and c_robust is constant less than 1. We basically find the point other than x_i that results in a strictly higher score than x_i and minimizes the distance between itself and 
     x_i. Later we sort these interest point pairs with their resultant radius in descending order, and return a number of them with maximal radius, in my case 100. What this achieves is that we are spreading the number of interest points in a uniform manner on the grid and also depending on how many of the interest points we return, describe the correspondance 
     points for the homography transformation with way less interest points that are spread uniformly over the grid without clusters, which helps us find the best features that describe the image according to the corner score function. I created a radius dictionary and a distance matrix (with the provided dist2 function) to calculate the distance between harris detected
-     corners. I also flattened the selected interest scores that were chosen by the corners inputted into the function. Then for each corner, I listed out the corner indices that satisfy the constraint, then found the index that minimized the objective. Then, sorted the dictionary by keys which are radius, and returned the top 100 corners with the highest resultant radius and the result is below:
+     corners. I also flattened the selected interest scores that were chosen by the corners inputted into the function. Then for each corner, I listed out the corner indices that satisfy the constraint, then found the index that minimized the objective. Then, sorted the dictionary by keys which are radius, and returned the top corners with the highest resultant radius and the result is below:
   </p>
 
   <h2> Associated Images</h2>
 
   <img src="project_4_images/piano_anms.png">
 
-  <p> ANMS points of piano room image 1 </p>
+  <p> ANMS points of piano room image 1 top 100 corners, c_robust = 0.9 </p>
 
   <img src="project_4_images/anms_robot1.png">
 
-  <p> ANMS points of Cory 105 image 1 </p>
+  <p> ANMS points of Cory 105 image 1 top 50 corners, c_robust = 0.9 </p>
 
   <img src="project_4_images/comp_harris_corners.png">
 
-  <p> ANMS points of Ihouse library image 1 </p>
+  <p> ANMS points of Ihouse library image 1 top 100 corners, c_robust = 0.9 </p>
 
   <h2> Feature Descriptor Extraction </h2>
   <p> 
@@ -240,7 +240,7 @@
     Namely, for some number of iteration (2000 in my case), we select four feature point pairs at random (calculated by the feature matching algorithm described above), then compute the 4 point homography between these points. Afterwards, 
     with the recovered homography, for each point pair in the feature points pairs array, we calculate the p2' = Hp1 and calculate the distance between p2' with the actual p2 we have within the array and if it is below some threshold, we add
     this point pair into the inliers array. We iteratively ty to find the maximum number if inluers associated with a homography transformation resulted by the random four point pair selection. After we are done with the iterations, we recalculate the
-     homography matrix with the point pairs in the final inliers array. With this homography matrix, we repeat the warping procedure described earlier and create the mosaic.
+     homography matrix with the point pairs in the final inliers array. With this homography matrix, we repeat the warping procedure described earlier and create the mosaic. The threshold was between 150 and 225 across the images.
   </p>
 
   <h2> Associated Images </h2>
