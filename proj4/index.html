@@ -31,8 +31,8 @@
   <p>This equation can be rearranged to obtain:</p>
   <p>$$
     \begin{bmatrix} x & y & 1 & 0 & 0 & 0 & -x'x & -x'y \\
-    0 & 0 & 0 & x & y & 1 & -xy' & -y'y \end{bmatrix} \dot \begin{bmatrix} a \\ b \\ c \\ d \\ e \\ f \\ g \\ h \end{bmatrix} = \begin{bmatrix} x' \\ y' \end{bmatrix}
-  </p>$$
+    0 & 0 & 0 & x & y & 1 & -xy' & -y'y \end{bmatrix} \dot \begin{bmatrix} a \\ b \\ c \\ d \\ e \\ f \\ g \\ h \end{bmatrix} = \begin{bmatrix} x' \\ y' \end{bmatrix} $$
+  </p>
 
   <p>Thus, to recover homographies with the correspondance points that we have, it is enough to vertical stack points to get the above form and run least squares to get the eight points that best match the above form, the  append
   1 to the (3, 3)th entry and reshape into 3x3 matrix.</p>
