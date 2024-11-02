@@ -26,13 +26,13 @@
   images from the same perspective, and then blend them together. In order to achieve this, we need pictures with same center of projection. Then for this part of the project, we will hand select correspondance
   points between two images and compute the homography with these correspondance points. In homogenous coordinates, we have \(Hp = p')\, where:</p>
   <p>$$
-    H = \begin{bmatrix} a & b & c \\ d & e & f \\ g & h & 1 \end{bmatrix}
+    H = \begin{bmatrix} a & b & c \\ d & e & f \\ g & h & 1 \end{bmatrix}$$
   </p>
   <p>This equation can be rearranged to obtain:</p>
-  <p>
+  <p>$$
     \begin{bmatrix} x & y & 1 & 0 & 0 & 0 & -x'x & -x'y \\
     0 & 0 & 0 & x & y & 1 & -xy' & -y'y \end{bmatrix} \dot \begin{bmatrix} a \\ b \\ c \\ d \\ e \\ f \\ g \\ h \end{bmatrix} = \begin{bmatrix} x' \\ y' \end{bmatrix}
-  </p>
+  </p>$$
 
   <p>Thus, to recover homographies with the correspondance points that we have, it is enough to vertical stack points to get the above form and run least squares to get the eight points that best match the above form, the  append
   1 to the (3, 3)th entry and reshape into 3x3 matrix.</p>
@@ -161,9 +161,9 @@
   </p>
 
   <p>$$
-    r_i = \text{min}|x_i - x_j|, \text{s.t.} f(x_i) \le c_{\text{robust}} f(x_j), x_j \in I
-
-  </p>$$
+    r_i = \text{min}|x_i - x_j|, \text{s.t.} f(x_i) < c_{\text{robust}} f(x_j), x_j \in I
+    $$
+  </p>
 
   <p>
     In this equation, \(x_i\) and \(x_j\) are interest points that are calculated with the harris detector, f(.) is the harris score function, and I is a set of interest points and c_robust is constant less than 1. We basically find the point other than x_i that results in a strictly higher score than x_i and minimizes the distance between itself and 
