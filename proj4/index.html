@@ -136,8 +136,8 @@
     To calculate the corner points, I used the pre-implemented harris corner detector. The harris corner detector calculates a quadratic form by taking the outer product of the gradient of the image with a derivative of gaussian filter. Then, it creates a matrix of scores of the same size as the image:
   </p>
   <p>$$
-    f_{HM}(x, y) = \frac{\det H_{l}(x, y)}{tr H_{l}(x, y}}
-  </p>$$
+    f_{HM}(x, y) = \frac{\det H_{l}(x, y)}{tr H_{l}(x, y}} $$
+  </p>
 
   <p>
     And in a square neighborhood, assigns the argmax to be an interest point. 
