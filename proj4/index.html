@@ -118,7 +118,7 @@
 
   <p> Original image 1 of Ihouse library with my computer </p>
 
-  <img src="project_4_images/comp1.jpeg">
+  <img src="project_4_images/comp2.jpeg">
 
   <p> Original image 2 of Ihouse library with my computer </p>
 
@@ -174,15 +174,33 @@
 
   <h2> Associated Images</h2>
 
-  <img src="project_4_images/comp1.jpeg">
+  <img src="project_4_images/piano_anms.png">
+
+  <p> ANMS points of piano room image 1 </p>
+
+  <img src="project_4_images/anms_robot1.png">
+
+  <p> ANMS points of Cory 105 image 1 </p>
+
+  <img src="project_4_images/comp_harris_corners.png">
+
+  <p> ANMS points of Ihouse library image 1 </p>
 
   <h2> Feature Descriptor Extraction </h2>
   <p> 
-    Around the interest points filtered by Adaptive Non-Maximal Suppression, I select patches of images which are 40x40 at first. Than I downsample them by 5 to create 8x8 images and standardize them by bias/gain normalization. Two examples of features are shown below:
+    Around the interest points filtered by Adaptive Non-Maximal Suppression, I select patches of images which are 40x40 at first. Than I downsample them by 5 to create 8x8 images and standardize them by bias/gain normalization. Some examples by the piano room image 1 are shown below:
   </p>
   
 
   <h2> Associated Images </h2>
+
+  <img src="project_4_images/output12.png">
+
+  <img src="project_4_images/output13.png">
+
+  <img src="project_4_images/output20.png">
+
+  <img src="project_4_images/output21.png">
 
   <h2> Feature Matching </h2>
 
@@ -198,6 +216,18 @@
 
   <h2> Associated Images </h2>
 
+  <img src="project_4_images/piano_matches1.png">
+
+  <img src="project_4_images/piano_matches2.png">
+
+  <img src="project_4_images/feature_math_robot1.png">
+
+  <img src="project_4_images/feature_match_robot2.png">
+
+  <img src="project_4_images/comp_matches1.png">
+
+  <img src="project_4_images/comp_matches2.png">
+
   <h2> 4-Point Ransac </h2>
 
   <p>
@@ -208,6 +238,10 @@
     this point pair into the inliers array. We iteratively ty to find the maximum number if inluers associated with a homography transformation resulted by the random four point pair selection. After we are done with the iterations, we recalculate the
      homography matrix with the point pairs in the final inliers array. With this homography matrix, we repeat the warping procedure described earlier and create the mosaic.
   </p>
+
+  <h2> Associated Images </h2>
+
+  
 
   <h2> What have I learned? </h2>
 
