@@ -37,10 +37,6 @@
   <p>Thus, to recover homographies with the correspondance points that we have, it is enough to vertical stack points to get the above form and run least squares to get the eight points that best match the above form, the  append
   1 to the (3, 3)th entry and reshape into 3x3 matrix.</p>
 
-  <h2> Associated Images </h2>
-
-  <img src="project_3_images/me.png">
-
 
 
   <h2> Warp the Images </h2>
@@ -49,20 +45,41 @@
   matrix and apply it to the corner coordinates of the image. Since the homography matrix is calculated as a forward homography from image 1 to image 2, this step finds the corner coordinates of image to projected onto the perspective of image 1. After this, 
   I create a polygon that captures this new trapezoid and interpolate from image 2 to fill the trapezoid. However, this warping will likely result in negative corners, or corners that fall out of the range of image 1, however; before this part, coordinates should be normalized in all homography steps.
   The normalization is done by dividing the resulting x, y coordinates after the homography transformation by the weight, which is the third coordinate after the homography transformation.
-  So I recalculate the x and y coordinates of the resulting image. I created two warp functions, one of which does the above functionality by calculating the min x, y and max x, y coordinate and create a grid appropriate to the resulting height and width of the combined image. </p>
+  So I recalculate the x and y coordinates of the resulting image. I created two warp functions, one of which does the above functionality by calculating the min x, y and max x, y coordinate and create a grid appropriate to the resulting height and width of the combined image. The results of warping are under the image rectification section </p>
 
-  
 
-  <h2> Associated Images </h2>
 
 
   <h2>> Image Rectification </h2>
 
   <p>This part consists of rectifying a trapezoidal part of the image into a rectangular shape to recover subtleties that are not immediately available in the original image. This is yet again a perspective transformation, so we can utilize a homography transformation again. In order to accomplish this, on the same image, 
   I define correspondance by hand. Since I want to transform a trapezoidal part of the image to a rectangle, I select the corners of the trapezoid. Then on the same image with the same orientation, I select coordinates of a rectangle, where I determine the length of the sides by inspection. Afterwards, it is enough to 
-  recover the homography and warp the image according to the warping procedure above.</p>
+  recover the homography and warp the image according to the warping procedure above. The transparent black web like artifacts on the images are a result of a crack on my camera. </p>
 
   <h2> Associated Images </h2>
+
+  <img src="project_4_images/my_ipad.jpeg">
+  <p> Perspective Ipad </p>
+
+  <img src="project_4_images/portrait1.jpeg">
+
+  <p> Perspective portrait 1 </p>
+
+  <img src="project_4_images/portrait2.jpeg">
+
+  <p> Perspective portrait 2 </p>
+
+  <img src="project_4_images/output3.png">
+
+  <p> Rectified Ipad with Info Theory notes </p>
+
+  <img src="project_4_images/output18.png">
+
+  <p> Rectified portrait 1 </p>
+
+  <img src="project_4_images/output19.png">
+
+  <p> Rectified portrait 2 </p>
 
   <h2> Blending the images into a mosaic </h2>
 
@@ -72,6 +89,42 @@
   </p>
 
   <h2> Associated Images </h2>
+
+  <img src="project_4_images/img1.jpeg">
+
+  <p> Original image 1 of the piano room </p>
+
+  <img src="project_4_images/img2.jpeg">
+
+  <p> Original image 1 of the piano room </p>
+
+  <img src="project_4_images/piano_mosaic_out.png">
+
+  <p> Naive mosaic of the piano room </p>
+
+  <img src="project_4_images/robots1.jpeg">
+
+  <p> Original image 1 of Cory 105 </p>
+
+  <img src="project_4_images/robots2.jpeg">
+
+  <p> Original image 2 of Cory 105 </p>
+
+  <img src="project_4_images/someshit.png">
+
+  <p> Naive mosaic of Cory 105 </p>
+
+  <img src="project_4_images/comp1.jpeg">
+
+  <p> Original image 1 of Ihouse library with my computer </p>
+
+  <img src="project_4_images/comp1.jpeg">
+
+  <p> Original image 2 of Ihouse library with my computer </p>
+
+  <img src="project_4_images/comp_mosaic_non_cropped.png">
+
+  <p> Naive mosaic of Ihouse library (arguably looks better than autostitching) </p>
 
   <h2> Harris Point Detector </h2>
 
