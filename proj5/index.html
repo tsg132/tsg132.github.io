@@ -20,6 +20,10 @@
 </head>
 <body>
   <h1> Image Generation with DeepFloyd and Implementation of a Diffusion Denoiser </h1>
+
+  <h2> Disclaimer for the TAs: </h2>
+
+  <p> I finished the website after I submitted everything to gradescope. However, all images, except for the images for part 1.10 (I forgot to upload them before) were committed to the repository before I submitted everything to gradescope. As I am taking the class PNP, please consider the website for grading since although the pdf I submitted to gradescope contains all the necessary imagery, it is not meant to be a report since I was very time constrained when I submitted everything to gradescope. But feel free to regenerate everything as the code I submitted to gradescope was final.</p>
   <h2> Part 0: Setup </h2>
 
   <p> In the first part of this project, we will be generating images with a pre-trained denoising model based on two unets, stage_1 unet can generate 64x64 pixel images and stage_2 unet can generate 256 x 256 pixel images. We access the model through Hugging Face. The model also takes in an argument of num_inference, which increases the steps in the denoising process. This implies that we expect images generated with higher 
@@ -91,12 +95,12 @@
 
   <h2> Associated Images </h2>
 
-  <img src="5a_part13_images/Unknown-34.png">
+  <img src="5a_13_images/Unknown-34.png">
 
-  <img src="5a_part13_images/Unknown-35.png">
-  <img src="5a_part13_images/Unknown-36.png">
+  <img src="5a_13_images/Unknown-35.png">
+  <img src="5a_13_images/Unknown-36.png">
 
-  <h2> 1.4 Implementing Iterative Denoising </h>
+  <h2> 1.4 Implementing Iterative Denoising </h2>
   <p>
 
     Although the images above look good, we can do better with iterative denoising. Here, we adhere to the below equation. To get x_t, we input the noisy image to the model to get the noise estimate and recover following the same procedure as one step denoising, then we input this recovered image to the iterative denoising loop getting a iteratively denoised estimate.
