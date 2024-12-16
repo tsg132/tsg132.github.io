@@ -1,1 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Final Project 2, 3: (Ne)ural (R)adiance (F)ields (NeRF) </title>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1> NeRF </h1>
+  
+  <h2> Part 1: Fit a Neural Field to a 2D Image </h2>
+
+  <p> 
+    To fit a neural field toa 2D image, the goal is to optimize a neural network (muli-layer perceptron (MLP)) such that it learns a mapping from 2D pixel coordinates (u, v) to the RGB values of an image. The neural network architecture can be found below.
+  </p>
+
+  <p> MLP Architecture: </p>
+
+  <img src="nerf_images/mlp.jpg"> 
+
+  <p> Positional Encodings: </p>
+
+  <img src="nerf_images/pe.jpg"> 
+
+
+  <p> For all 2D coordinates in the picture that we input to the network, we first get their positional encodings. The reason for that is 2 dimensions are simply now enough and we need sinusoidal encodings with frequency L = 10. The output of this network is predicted RGB values for each pixel. The target is the ground-truth RGB values extracted from the image. For
+  
+  efficiency purposes, during training, at each iteration, random subsamples of pixels are sampled. the network optimizes MSE between the predicted RGB and the ground truth RGB values. We want PSNR as high as possible since as MSE decreases, PSNR increases. Another way to interpret this is that the noise passed through the neural channel is minimized. </p>
+
+  
+  <img src="nerf_images/psnr.jpg"> 
+
+  <p> The default parameters for training are 2000 iterations, 10000 batch size, learning rate of 1e-2, frequency L = 10, and channels sizes same as in the network architecture. The results for the test image are below. The final PSNR we achieved was 26.7 which is not bad.</p>
+
+  <h2> Results of fitting a Neural Field to a 2D image </h2>
+
+  <img src="nerf_images/o1.png"> 
+
+  <img src="nerf_images/o2.png"> 
+
+  <img src="nerf_images/o3.png"> 
+
+  <p> We then varied some of the hyperparameters to model the behavior of the model with different hyperparameters. We first tested two different learning apart from the baseline which is 1e-2, [1e-4, 1e-1]. 1e-4 is a slower learing rate, so without increasing the number of training iterations, we shouldn't expect a reconstructed image with better resolution. This is confirmed by the results with learning rate = 1e-4 below.</p>
+
+  <img src="nerf_images/o4.png"> 
+
+  <img src="nerf_images/o5.png"> 
+
+  <p> As can be seen from the above images, compared to the learning rate of 1e-2, at the same iteration, we get a reconstructed image with lower quality, which is because of the slower learning. Below are the results for learning rate 1e-1: </p>
+
+  <img src="nerf_images/o6.png"> 
+
+  <img src="nerf_images/o7.png"> 
+
+  <p> As expected, a learning rate this high quickly and incorrectly converges to 0, which is the value for black in RGB, which results in a totally wrong reconstructed image. </p>
+
+  <p> Then we varied frequency L. Namely, apart from the baseline L = 10, we tried values in [2, 15]. The results for L = 2 is below: </p>
+
+  <img src="nerf_images/o8.png"> 
+
+  <img src="nerf_images/o9.png"> 
+
+  <p> This is an interesting result. Lowering the frequency acts as a low pass filter, namely a Gaussian Blur, blurring the reconstructed image, which makes sense as low pass filters attenuate low frequency features and since our encodings are low frequency features with L = 2, but still surprising. </p>
+
+  <img src="nerf_images/o10.png"> 
+
+  <img src="nerf_images/o11.png"> 
+
+  <p> In conjuncture with the above arguement, setting L = 15, which is too high, will attenuate high frequency features, which results in the above edgy images, though PSNR is high. </p>
+
+  <p> We tried everything we did with another image, which is sampled from Pink Floyd's Meddle album cover, the results are below in sequential order as for this test image: </p>
+
+  <h2> Results for Pink Floyd Meddle Album Cover </h2>
+
+  <img src="nerf_images/o12.png"> 
+
+  <img src="nerf_images/o13.png"> 
+
+  <img src="nerf_images/o14.png"> 
+
+  <img src="nerf_images/o15.png">   
+
+  <img src="nerf_images/o16.png"> 
+
+  <img src="nerf_images/o17.png"> 
+
+  <img src="nerf_images/o18.png"> 
+
+  <img src="nerf_images/o19.png">  
+  
+  <img src="nerf_images/o20.png"> 
+
+  <img src="nerf_images/o21.png"> 
+
+<h2> Part 2.1: Creating Rays from Cameras </h2>
+
+  <p> To create rays from cameras, we first need to find the transformation from camera coordinates to the world coordinates. Any rigid body transformation can be represented by a rotation along the intertial axis, and a translation. The below rigid body transformation achieves this. In the dataset, we are given transformations from camera to world coordinates. </p>
+
+  
+  <img src="nerf_images/w2c.jpg"> 
+
+  <p> For the pinhole camera model with principal point (o_x, o_y) and focal lengths (f_x, f_y) and no shearing, we can define the calibration matrix K as follows: </p>
+
+  
+  <img src="nerf_images/K.jpg"> 
+
+  <p> when we multiply the camera coordinates with the calibration matrix, we formally and intuitively would get the depth s (scalar) multiplied by the pixel coordinates in homogenous coordinates. This implies that in order to get the camera coordinates back, it is enough to multiply LHS by K inverse.</p>
+
+  <img src="nerf_images/suv.jpg"> 
+
+  
+  <p> In this case, if we have the world to camera matrix defined as the first equation, then the vector quantity: </p>
+
+  <img src="nerf_images/ro.jpg"> 
+
+  <p> Would be the ray to origin of the world frame from the camera point. This makes sense because we rotate the body frame of the camera to point to the world frame first by applying R inverse on the translational component, which is the translation vector pointing to the origin. In this case, the following equation make sense to represent rays from camera to the world frame in a normalized manner. We implement all of these transformations. </p>
+
+  <img src="nerf_images/rd.jpg"> 
+
+  <h2> Part 2.2: Sampling </h2>
+  <p> To sample rays from images, we first generated a grid of pixel coordinates for all images (all operations suppport batched inputs). Rays are defined by their origins r_o and directions r_d, so we generated this tuple for all the images. Then we offset 0.5 to shift the coordinates to pixel centers (normalization). For each grid coordinate, we compute the ray origin r_o and the ray direction r_d using transformations and camera intrinsics provided by the dataset.
+   We sampled N rays globally across all images. Then we implemented the functionality to sample points along rays. After obtaining the rays (r_o, r_d) we sampled poijts along each ray in 3D space. The samplig method included sampling values uniformly between near = 2.0 and far = 6.0, and a perturbation, which is adding random ofsets to the values during training to ensure every location on the ray is covered. Then the sampled point would be p = r_o + t * r_d. We then incorporated this logic
+
+    to the Dataloader and the preimplemented function to visualize rays which resulted in the following image (pretty cool)!
+  </p>
+
+  <img src="nerf_images/cube.jpg"> 
+
+  
+</body>
+</html>
