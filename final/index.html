@@ -147,6 +147,8 @@
   <p>The network architecture for 3D images is similar to how we fitted a neural network to predict rgb values from positional encodings. The network consists of two key inputs, 3D coordinates representing points in 3D space and a view direction, representing the direction from which we're viewing each point. Both inputs go through positional encoding as before to capture higher frequency details. The network then processes these inputs. The mai backbone consists of 8 linear layers with ReLU activations, processing the encoded 3D coordintes. Halfway through the pipeline, the network concatenates th encoded view direction with the 
   intermediate features. This injection of view information helps the network understand how the appearence of points changes based on viewing angle. The network also has two outputs, density output which preci ts how 'solid' each 3D point is and a color branch (rgb) output which predicts the RGB color of each point when viewd from the given direction. This architecture allows the network to learn a volumetric representation of a scene, where each point in 3D space has both a density and a view-dependent color. In our network, the inputted 3D pixel is positionally encoded with frequency L = 10 and the ray direction is also positionally encoded with L = 4. </p>
 
+  <img src="network.jpg"> 
+
 
   <h2> Part 2.5 Volume Rendering </h2>
 
@@ -154,6 +156,9 @@
 
     Points closer to the camera contribute more to the final color than distant points. The discrete approximation makes this computable by sampling N points alog each ray and for each point i, calculating the probabilithy of light reaching that point (1 - exp(sigma(i)delta(i))) and multiplying these with the color values c(i) and summing up all these contributions. This rendering equation is what allows NeRF to create realistic 3D views.
   </p>
+
+  <img src="cont.jpg"> 
+  <img src="disc.jpg"> 
 
 
   <h2>Part 2.4 and 2.5 continued: Training of the Network </h2>
@@ -165,6 +170,16 @@
   </p>
 
   <h2> Loss, PSNR, Samples, and NeRF reconstruction from the model</h2>
+
+  <img src="Unknown-35.png">
+
+  <img src="train.png">
+
+  <img src="psnr.png">
+
+  <video width="320" height="240" controls loop>
+    <source src="lego_video.mp4" type="video/mp4">
+</video>
 
   
 
