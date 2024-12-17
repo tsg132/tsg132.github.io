@@ -133,7 +133,7 @@
 
   <img src="nerf_images/rd.jpg"> 
 
-  <h2> Part 2.2: Sampling </h2>
+  <h2> Parts 2.2 and 2.3: Sampling </h2>
   <p> To sample rays from images, we first generated a grid of pixel coordinates for all images (all operations suppport batched inputs). Rays are defined by their origins r_o and directions r_d, so we generated this tuple for all the images. Then we offset 0.5 to shift the coordinates to pixel centers (normalization). For each grid coordinate, we compute the ray origin r_o and the ray direction r_d using transformations and camera intrinsics provided by the dataset.
    We sampled N rays globally across all images. Then we implemented the functionality to sample points along rays. After obtaining the rays (r_o, r_d) we sampled poijts along each ray in 3D space. The samplig method included sampling values uniformly between near = 2.0 and far = 6.0, and a perturbation, which is adding random ofsets to the values during training to ensure every location on the ray is covered. Then the sampled point would be p = r_o + t * r_d. We then incorporated this logic
 
@@ -141,6 +141,32 @@
   </p>
 
   <img src="nerf_images/cube.jpg"> 
+
+  <h2> Part 2.4: Neural Radiance Field </h2>
+
+  <p>The network architecture for 3D images is similar to how we fitted a neural network to predict rgb values from positional encodings. The network consists of two key inputs, 3D coordinates representing points in 3D space and a view direction, representing the direction from which we're viewing each point. Both inputs go through positional encoding as before to capture higher frequency details. The network then processes these inputs. The mai backbone consists of 8 linear layers with ReLU activations, processing the encoded 3D coordintes. Halfway through the pipeline, the network concatenates th encoded view direction with the 
+  intermediate features. This injection of view information helps the network understand how the appearence of points changes based on viewing angle. The network also has two outputs, density output which preci ts how 'solid' each 3D point is and a color branch (rgb) output which predicts the RGB color of each point when viewd from the given direction. This architecture allows the network to learn a volumetric representation of a scene, where each point in 3D space has both a density and a view-dependent color. In our network, the inputted 3D pixel is positionally encoded with frequency L = 10 and the ray direction is also positionally encoded with L = 4. </p>
+
+
+  <h2> Part 2.5 Volume Rendering </h2>
+
+  <p>Volume rendering is how we turn the NeRF's outputs to actual 2D images. For any camera ray going through the scene, we sample multiple points along that ray. At each point sigma(t) represents the density, c(t) represents the color, T(t) represents the transmittence, which is how much light makes it through all the previous points. Dense points block more light from points behind them. Thus, the color we see is a weighted sum of all points' colors along the ray.
+
+    Points closer to the camera contribute more to the final color than distant points. The discrete approximation makes this computable by sampling N points alog each ray and for each point i, calculating the probabilithy of light reaching that point (1 - exp(sigma(i)delta(i))) and multiplying these with the color values c(i) and summing up all these contributions. This rendering equation is what allows NeRF to create realistic 3D views.
+  </p>
+
+
+  <h2>Part 2.4 and 2.5 continued: Training of the Network </h2>
+
+  <p> We train this network in a batched manner. For each training iteration, the code samples a batch of random rays from the dataset. Along eah ray, it samples multiple points (num_samples=64) between near and far bounds (2.0 and 6.0 respectively). These points and their corresponding view directions become the input to the network. 
+  In the forward pass, the MLP processes each 3D point and its viewing direction through positional encodings. For each point, the network outputs a density value and an RGB color value. These outputs are then processed through discrete volume rendering to produce a predicted RGB color for each ray. The rendered colors are compared against the ground truth
+  
+  from the training images using MSE loss. The Adam optimized updates the network weights to minize the differencce between predicted and actual colors. This process is repeated for 6000 iterations (thanks to A100 GPU) with a batch size of 10000 rays. Through this process the network leaerns to represent the 3D scene as a continuous function that can predict density and color at any point in space from any viewing direction.
+  </p>
+
+  <h2> Loss, PSNR, Samples, and NeRF reconstruction from the model</h2>
+
+  
 
   
 </body>
