@@ -20,6 +20,10 @@
 <body> 
   <h1> Stack Attack </h1>
 
+  <p align="center">
+    <img src="intro.png">
+</p>
+
   <h2> Sundry </h2>
 
   <p> This project is a group effort of Kamoni Fletcher, Samantha Flores-Eulloqui, and Tan Sarp Gerzile </p>
@@ -30,6 +34,10 @@
     The goal of this project is to stack a group of blocks either as a 2D pyramid (ie no length component) or a vertical tower using Rethink Sawyer robot. The reason we chose to implement this project was because it included all facets of the requirements of 106A project, ie sensing, path planning, and actuation. The interesting parts of the project became apperant later when we started the implementation. Although it seems like a trivial task, we needed to solve a lot of problems. We chose to start blocks from a random initialization, which means that all the blocks sitting on the workspace has random orientation and translation. As can be seen from the figure below, in order to stack the blocks in a successful fashion, they all need to have the same orientation first. Thus, the first problem that we needed to solve was to find the orientations (yaw) of each block after detection. Additionally, to pick the blocks up, we needed to implement path planning algorithms similar to lab 7. Additionally, in order to prevent jerky motion of the arm, we also needed to implement control. After the implementation of all these functions, we also needed to make precise adjustments so that the project worked as intended. 
     As a result, the most interesting part of this project for us was the implementing a full-stack robot application from scratch, which simulated a real world industrial robotics environment for us. Although it was frustrating from time to time, being able to complete the project was worth the frustration.
   </p>
+
+    <p align="center">
+    <img src="psa.png">
+</p>
 
   <h2> Real World Application </h2>
 
