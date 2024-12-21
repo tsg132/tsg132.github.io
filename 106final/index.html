@@ -46,8 +46,30 @@
 
   <p> For implementation details of this project, please check this <a href="https://tsg132.github.io/106final/Implementation.pdf"> link</a> out. </p>
 
-  
+  <h2> Results </h2>
 
+  <p> We worked hard to get the implementation correct, the results for pyramid stacking are available through this <a href="https://www.youtube.com/watch?v=TiPFsUEooAI"> link</a> and the results for vertical stacking are available through this <a href="https://www.youtube.com/watch?v=NV6WJHLc81w"> link</a>. </p>
+
+  <h2> Conclusion </h2>
+
+  <p>
+    The results perfectly mathces the design and implementation criteria. However, the implementation isn't as robust as we'd like to, in fact it took multiple iterations to get the results in the video. Early challanges were getting the yaw adjustments before picking up the block to avoid moving blocks and AR tags not being seen. Later challanges were not bbeing able to adjust the Z axis because it is always rest to match the height of the table, robot getting weird trajectory and being twisted up after picking up the block so we had to come up with a tuck to undo it and be able to place from a more desirable starting position, and jerking of the robot due to controller. We also faced a lot of hardware issues when testing. The biggest flaw of this current execution is the fact that blocks don't have pick up positions, which interfere with the execution flaw, which results in sometimes overlapping trajectories. A solution to that is, after picking up each block, placing them in a predetermined position to clear up the workspace, especially around the center position, and then safely placing blocks around the center, but we couldn't implement this because we didn't have time.
+  </p>
+
+  <h2> Team </h2>
+<p> Samantha Flores-Eulloqui: Samantha is a final year EECS major. Her main contributions include making a scan function that would tuck the arm for us to go through all AR tags within that frame and get their position, calculate the yaw and store them within a dictionary. Another contribution she made was making a vertical stack for any n blocks detected. Like the other partners, she also worked on debugging the code when we ran into the issu of the sawyer not begin able to rotate the end effector after placing the first block by macking a function that would reset the joint angles. </p>
+
+  <p> Kamoni Fletcher: Kamoni is a final year EECS major. His main contributions came from the development of the basis for stacking. He began with helping facilitate the creation of vertical stacking which we used for the back bone of filling out the rest of the stacking function. He helped with assisting the team in debugging the joint way points errors for speeding up the gripper close, and helped with debugging the custom tuck that we created for better resolution of the blocks. </p>
+
+  <p> Tan Sarp Gerzile: Tan is a final year CS major. His main contribution was to develop the system to get the yaw adjustments and implementing control. Additionally, he developed the skeleton code for pyramid stacking, which we later had to debug a lot. As the other members, he was instrumental in debugging. He also worked on getting the custom tuck correct and having better AR detection for the blocks.</p>
+
+
+  <p> In conclusion, all the members had equal contribution in the development of this project.</p>
+
+  <h2> Code</h2>
+
+  The code for this project can be found through this <a href="https://github.com/tsg132/eecs106a-final"> link</a>
+  
   
 </body>
 </html>
